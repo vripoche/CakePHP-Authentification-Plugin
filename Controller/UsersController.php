@@ -28,12 +28,10 @@ class UsersController extends AppController {
      * @return NULL
      */
     public function admin_login() {
-        if ($this->request->is('post')) {
-            if ($this->Authentification->login()) {
-                $this->redirect($this->Authentification->redirect());
-            } else {
-                $this->Session->setFlash(__('Invalid username or password, try again'));
-            }
+        if ($this->Authentification->login()) {
+            $this->redirect($this->Authentification->redirect());
+        } else if ( $this->request->is('post') ) {
+            $this->Session->setFlash(__('Invalid username or password, try again'));
         }
     }
 

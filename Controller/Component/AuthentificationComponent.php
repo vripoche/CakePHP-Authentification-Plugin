@@ -22,4 +22,8 @@ class AuthentificationComponent extends AuthComponent
     public $authenticate = array('all' => array(
 		'userModel' => 'Authentification.User'
     ));
+    
+    public function getAuthorizeObjects() {
+        return $this->_authorizeObjects;
+    }
 }

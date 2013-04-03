@@ -6,4 +6,5 @@ App::uses('AppModel', 'Model');
  * @property SessionTeam $SessionTeam
  */
 class User extends AppModel {
+    public $useTable = false;
 }

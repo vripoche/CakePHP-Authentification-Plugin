@@ -11,7 +11,7 @@ Then, add this CakePlugin::load in the app bootstrap and active the plugin boots
 
 > CakePlugin::load('Authentification', array('routes' => true));
 
-Use the new Simple and SimpleBasic Auth types
+Use the new SimpleForm and SimpleBasic Auth types
 ---------------------------------------------
 
 These new auth systems use a config instead of "users" table, just put users in bootstrap:
@@ -30,7 +30,7 @@ For example:
 
 >    public $components = array(
 >        'Authentification.Authentification' => array(
->            'authenticate' => array('Authentification.Simple'),
+>            'authenticate' => array('Authentification.SimpleForm'),
 >            'loginRedirect' => array('controller' => 'posts', 'action' => 'index'),
 >            'logoutRedirect' => array('controller' => 'page', 'action' => 'index')
 >        )
