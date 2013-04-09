@@ -1,18 +1,18 @@
 <?php
-App::uses('BasicAuthenticate', 'Controller/Component/Auth');
+App::uses('FormAuthenticate', 'Controller/Component/Auth');
 App::uses('AuthentificationStrategy', 'Authentification.Lib');
 
 /**
- * SimpleBasicAuthenticate 
+ * SimpleAuthenticate use a configuration array instead of Users table
  * 
- * @uses BasicAuthenticate
+ * @uses FormAuthenticate
  * @package Authentification
  * @version 
  * @copyright Copyright (C) 2013 Marcel Publicis All rights reserved.
  * @author Vivien Ripoche <vivien.ripoche@marcelww.com> 
  * @license 
  */
-class SimpleBasicAuthenticate extends BasicAuthenticate {
+class SimpleFormAuthenticate extends FormAuthenticate {
 
     /**
      * _findUser 
