@@ -31,5 +31,5 @@ class AuthentificationComponent extends AuthComponent
         if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin') {
             $this->layout = 'admin';
         } else $this->allow();
-    }    
+    }
 }
