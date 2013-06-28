@@ -26,4 +26,10 @@ class AuthentificationComponent extends AuthComponent
     public function getAuthorizeObjects() {
         return $this->_authorizeObjects;
     }
+    
+    public function initialize() {
+        if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin') {
+            $this->layout = 'admin';
+        } else $this->allow();
+    }    
 }
