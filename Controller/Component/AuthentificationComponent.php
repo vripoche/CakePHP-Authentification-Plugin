@@ -20,16 +20,16 @@ class AuthentificationComponent extends AuthComponent
     );
     
     public $authenticate = array('all' => array(
-		'userModel' => 'Authentification.User'
+        'userModel' => 'Authentification.User'
     ));
     
     public function getAuthorizeObjects() {
         return $this->_authorizeObjects;
     }
     
-    public function initialize() {
-        if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin') {
-            $this->layout = 'admin';
-        } else $this->allow();
+    public function initialize($controller) {
+        if ($controller->params['prefix'] != 'admin') {
+            $this->allow();
+        }
     }
 }
