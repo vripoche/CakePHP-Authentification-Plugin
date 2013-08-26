@@ -13,23 +13,46 @@ App::uses('AuthComponent', 'Controller/Component');
  */
 class AuthentificationComponent extends AuthComponent
 {
+    /**
+     * loginAction 
+     * 
+     * @var array
+     */
     public $loginAction = array(
         'controller' => 'users',
         'action' => 'login',
         'plugin' => 'authentification'
     );
-    
+
+    /**
+     * authenticate 
+     * 
+     * @var string
+     */
     public $authenticate = array('all' => array(
         'userModel' => 'Authentification.User'
     ));
-    
+
+    /**
+     * getAuthorizeObjects 
+     * 
+     * @return NULL
+     */
     public function getAuthorizeObjects() {
         return $this->_authorizeObjects;
     }
-    
+
+    /**
+     * initialize 
+     * 
+     * @param mixed $controller 
+     * @return NULL
+     */
     public function initialize($controller) {
         if ($controller->params['prefix'] != 'admin') {
             $this->allow();
+        } else {
+            parent::initialize($controller);
         }
     }
 }
