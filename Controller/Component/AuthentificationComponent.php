@@ -49,10 +49,9 @@ class AuthentificationComponent extends AuthComponent
      * @return NULL
      */
     public function initialize($controller) {
+        parent::initialize($controller);
         if ($controller->params['prefix'] != 'admin') {
             $this->allow();
-        } else {
-            parent::initialize($controller);
         }
     }
 }
