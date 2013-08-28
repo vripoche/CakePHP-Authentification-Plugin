@@ -12,6 +12,8 @@
  */
 class UsersController extends AppController {
 
+    public $components = array('Session');
+
     /**
      * beforeFilter 
      * 
