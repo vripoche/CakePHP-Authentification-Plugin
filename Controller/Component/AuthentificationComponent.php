@@ -48,7 +48,7 @@ class AuthentificationComponent extends AuthComponent
      * @param mixed $controller 
      * @return NULL
      */
-    public function initialize($controller) {
+    public function initialize(Controller $controller) {
         parent::initialize($controller);
         if ($controller->params['prefix'] != 'admin') {
             $this->allow();
