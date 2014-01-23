@@ -13,7 +13,6 @@ App::uses('AuthComponent', 'Controller/Component');
  */
 class AuthentificationComponent extends AuthComponent
 {
-
     /**
      * loginAction 
      * 
@@ -49,9 +48,9 @@ class AuthentificationComponent extends AuthComponent
      * @param mixed $controller 
      * @return NULL
      */
-    public function initialize($controller) {
+    public function initialize(Controller $controller) {
         parent::initialize($controller);
-        if ($controller->params['prefix'] != 'admin' && !in_array('Authentification.SimpleBasic', $this->authenticate)) {
+        if ($controller->params['prefix'] != 'admin') {
             $this->allow();
         }
     }
