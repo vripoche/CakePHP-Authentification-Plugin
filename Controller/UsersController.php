@@ -20,8 +20,8 @@ class UsersController extends AppController {
      * @return NULL
      */
     public function beforeFilter() {
-        $this->Authentification->allow('login','logout');
         parent::beforeFilter();
+        $this->Authentification->allow('login','logout');
     }
 
     /**
