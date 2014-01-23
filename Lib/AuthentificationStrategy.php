@@ -27,6 +27,8 @@ class AuthentificationStrategy {
               $selectedUser = $user;
           }
         }
+
+        CakeSession::write('Auth.User', $selectedUser);
         return $selectedUser;
     }
 }
