@@ -48,10 +48,12 @@ Use differents auth on the same Web site
 
 It is possible to add a Basic connection on the entire site and still keep the Form one on the admin section:
 ```php
-'Authentification.Authentification' => array(
-    'authenticate' => array(
-        'Authentification.SimpleBasic',
-        'Authentification.SimpleForm' => array('prefix' => 'admin')
+public $components = array(
+    'Authentification.Authentification' => array(
+        'authenticate' => array(
+            'Authentification.SimpleBasic',
+            'Authentification.SimpleForm' => array('prefix' => 'admin')
+        )
     )
 );
 ```
