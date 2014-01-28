@@ -1,7 +1,7 @@
 CakePHP-Authentification-Plugin
 ==========================
 
-Plugin used to manage easily authentifications on CakePhp 2.x
+Plugin used to manage authentifications easily on CakePhp 2.x
 
 Setup
 -----
@@ -15,12 +15,13 @@ CakePlugin::load('Authentification', array('routes' => true));
 Use the new SimpleForm and SimpleBasic Auth types
 ---------------------------------------------
 
-These new auth systems use a config instead of "users" table, just put users in bootstrap:
+These new auth systems use a config instead of "users" table, just put users in bootstrap, the role is now mandatory:
 ```php
 Configure::write('Users', array (
     array (
         'username' => 'admin',
-        'password' => 'admin'
+        'password' => 'admin',
+        'role'     => 'admin'
     )
 ));
 ```
@@ -32,9 +33,25 @@ For example:
 ```php
 public $components = array(
     'Authentification.Authentification' => array(
-        'authenticate' => array('Authentification.SimpleForm'),
+        'authenticate' => array('Authentification.SimpleForm' => array('prefix' => 'admin')),
         'loginRedirect' => array('controller' => 'posts', 'action' => 'index'),
         'logoutRedirect' => array('controller' => 'page', 'action' => 'index')
+    )
+);
+```
+
+Prefix must match with the role of the user, here the SimpleForm method
+is used to connect the admin role to the admin section of the Web site.
+
+Use differents auth on the same Web site
+----------------------------------------
+
+It is possible to add a Basic connection on the entire site and still keep the Form one on the admin section:
+```php
+'Authentification.Authentification' => array(
+    'authenticate' => array(
+        'Authentification.SimpleBasic',
+        'Authentification.SimpleForm' => array('prefix' => 'admin')
     )
 );
 ```

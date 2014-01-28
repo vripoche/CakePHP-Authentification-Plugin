@@ -22,6 +22,6 @@ class SimpleBasicAuthenticate extends BasicAuthenticate {
      * @return array
      */
     protected function _findUser ( $conditions, $password = null ) {
-        return AuthentificationStrategy::findUser( $conditions, $password );
+        return AuthentificationStrategy::findUser( $conditions, $password, 'Authentification.SimpleBasic' );
     }
 }

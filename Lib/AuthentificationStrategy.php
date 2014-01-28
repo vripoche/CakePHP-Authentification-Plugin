@@ -18,17 +18,27 @@ class AuthentificationStrategy {
      * @param string $password 
      * @return array
      */
-    public static function findUser ( $conditions, $password = null ) {
+    public static function findUser ( $conditions, $password = null , $authenticate = null ) {
         $selectedUser = array();
         $usersList = Configure::read( 'Users' );
-        foreach ( $usersList as $user ) {
+
+        if( isset( $usersList[$authenticate] ) ) {
+            $selectedUser = self::_checkUser( $usersList[$authenticate], $conditions, $password );
+        } else {
+            foreach ( $usersList as $user ) {
+                $selectedUser = self::_checkUser( $user, $conditions, $password );
+            }
+        }
+        CakeSession::write('Auth.User', $selectedUser);
+        return $selectedUser;
+    }
+
+    private static function _checkUser( $user, $conditions, $password ) {
+          $selectedUser = array();
           if ( !isset( $user['username'] ) || !isset( $user['password'] ) ) throw new CakeException('Username or password is not defined for Authentification.');
           if ( $user['username'] == $conditions && $user['password'] == $password ) {
               $selectedUser = $user;
           }
-        }
-
-        CakeSession::write('Auth.User', $selectedUser);
-        return $selectedUser;
+          return $selectedUser;
     }
 }

@@ -2,8 +2,8 @@
 App::uses('AuthComponent', 'Controller/Component');
 
 /**
- * AuthentificationComponent is just the plugin Auth child
- * 
+ * AuthentificationComponent manage allowed according to roles and prefixes.
+ *
  * @uses AuthComponent
  * @package Authentification
  * @version 
@@ -13,7 +13,6 @@ App::uses('AuthComponent', 'Controller/Component');
  */
 class AuthentificationComponent extends AuthComponent
 {
-
     /**
      * loginAction 
      * 
@@ -34,10 +33,30 @@ class AuthentificationComponent extends AuthComponent
         'userModel' => 'Authentification.User'
     ));
 
+
+    /**
+     * startup 
+     * 
+     * @param mixed $controller 
+     * @return NULL
+     */
+    public function startup( $controller ) {
+        if($controller->params['controller'] != 'users' || $controller->params['plugin'] != 'authentification') {
+            foreach( $this->authenticate as $method => $params ) {
+                if( is_array( $params ) && isset( $params['prefix'] ) && $controller->params['prefix'] == $params['prefix'] ) {
+                    $this->authenticate = array();
+                    $this->authenticate[$method] = $params;
+                    break;
+                }
+            }
+        }
+        parent::startup( $controller );
+    }
+
     /**
      * getAuthorizeObjects 
      * 
-     * @return NULL
+     * @return Array
      */
     public function getAuthorizeObjects() {
         return $this->_authorizeObjects;
@@ -49,10 +68,14 @@ class AuthentificationComponent extends AuthComponent
      * @param mixed $controller 
      * @return NULL
      */
-    public function initialize($controller) {
-        parent::initialize($controller);
-        if ($controller->params['prefix'] != 'admin' && !in_array('Authentification.SimpleBasic', $this->authenticate)) {
-            $this->allow();
+    public function initialize( $controller ) {
+        parent::initialize( $controller );
+        foreach( $this->authenticate as $method => $params ) {
+            if( is_array( $params ) && isset( $params['prefix'] ) && $controller->params['prefix'] != $params['prefix'] ) $this->allow();
+        }
+        $role = CakeSession::read('Auth.User.role');
+        if( ! is_null( $controller->params['prefix'] ) && ! is_null( $role ) && $role != $controller->params['prefix'] ) {
+            throw new ForbiddenException( __("No grant access to this section") );
         }
     }
 }
