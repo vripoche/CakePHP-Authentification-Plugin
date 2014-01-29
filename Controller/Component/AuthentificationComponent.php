@@ -41,13 +41,12 @@ class AuthentificationComponent extends AuthComponent
      * @return NULL
      */
     public function startup( $controller ) {
-        if($controller->params['controller'] != 'users' || $controller->params['plugin'] != 'authentification') {
-            foreach( $this->authenticate as $method => $params ) {
-                if( is_array( $params ) && isset( $params['prefix'] ) && $controller->params['prefix'] == $params['prefix'] ) {
-                    $this->authenticate = array();
-                    $this->authenticate[$method] = $params;
-                    break;
-                }
+        $prefix = $controller->params['prefix'];
+        foreach( $this->authenticate as $method => $params ) {
+            if( !is_array( $params ) && is_null( $prefix ) || is_array( $params ) && isset( $params['prefix'] ) && $prefix == $params['prefix'] ) {
+                $this->authenticate = array();
+                $this->authenticate[$method] = $params;
+                break;
             }
         }
         parent::startup( $controller );
@@ -62,6 +61,7 @@ class AuthentificationComponent extends AuthComponent
         return $this->_authorizeObjects;
     }
 
+
     /**
      * initialize 
      * 
@@ -70,10 +70,17 @@ class AuthentificationComponent extends AuthComponent
      */
     public function initialize( $controller ) {
         parent::initialize( $controller );
+        $deny = false;
+        $allow = false;
+
         foreach( $this->authenticate as $method => $params ) {
-            if( is_array( $params ) && isset( $params['prefix'] ) && $controller->params['prefix'] != $params['prefix'] ) $this->allow();
+            if(! is_array( $params ) ) $deny = true;
+            if( is_array( $params ) && isset( $params['prefix'] ) && $controller->params['prefix'] != $params['prefix'] ) $allow = true;
         }
+
+        if(!$deny && $allow) $this->allow();
         $role = CakeSession::read('Auth.User.role');
+
         if( ! is_null( $controller->params['prefix'] ) && ! is_null( $role ) && $role != $controller->params['prefix'] ) {
             throw new ForbiddenException( __("No grant access to this section") );
         }
