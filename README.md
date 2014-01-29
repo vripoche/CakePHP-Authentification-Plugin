@@ -18,7 +18,7 @@ Use the new SimpleForm and SimpleBasic Auth types
 These new auth systems use a config instead of "users" table, just put users in bootstrap, the role is now mandatory:
 ```php
 Configure::write('Users', array (
-    array (
+    'Authentification.SimpleForm' => array (
         'username' => 'admin',
         'password' => 'admin',
         'role'     => 'admin'
