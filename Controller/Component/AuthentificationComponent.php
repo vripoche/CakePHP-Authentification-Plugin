@@ -33,14 +33,13 @@ class AuthentificationComponent extends AuthComponent
         'userModel' => 'Authentification.User'
     ));
 
-
     /**
      * startup 
      * 
      * @param mixed $controller 
      * @return NULL
      */
-    public function startup( $controller ) {
+    public function startup( Controller $controller ) {
         $prefix = $controller->params['prefix'];
         foreach( $this->authenticate as $method => $params ) {
             if( !is_array( $params ) && is_null( $prefix ) || is_array( $params ) && isset( $params['prefix'] ) && $prefix == $params['prefix'] ) {
@@ -61,14 +60,13 @@ class AuthentificationComponent extends AuthComponent
         return $this->_authorizeObjects;
     }
 
-
     /**
      * initialize 
      * 
      * @param mixed $controller 
      * @return NULL
      */
-    public function initialize( $controller ) {
+    public function initialize( Controller $controller ) {
         parent::initialize( $controller );
         $deny = false;
         $allow = false;
