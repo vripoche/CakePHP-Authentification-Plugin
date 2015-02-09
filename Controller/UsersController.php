@@ -12,7 +12,7 @@
  */
 class UsersController extends AppController {
 
-    public $components = array('Session');
+    public $components = array('Session', 'Security');
 
     /**
      * beforeFilter 
